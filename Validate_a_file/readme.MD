@@ -29,7 +29,7 @@ cd json-validator
 
 2.  **Execute the script** using Node:
     ```bash
-    node validator.js
+    npm run validate
     
 📝 Example Output
 If the file is correct, you will see:
