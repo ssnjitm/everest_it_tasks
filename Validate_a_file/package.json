@@ -1,0 +1,19 @@
+{
+  "name": "everst_it_task",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "validate":"node validator.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
+    "mysql2": "^3.22.3"
+  }
+}
