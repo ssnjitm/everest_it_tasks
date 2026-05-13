@@ -1,17 +1,18 @@
 import express, { Request, Response } from 'express';
 import mysql from 'mysql2/promise';
-import 'dotenv/config';
+import * as dotenv from 'dotenv';
 
-
+dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Database Connection Configuration
+
 const dbConfig = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    host: 'localhost',
+    user: 'everest_user',
+    password: 'Password123!', 
+    database: 'my_app',
+    rowsAsArray: false
 };
 
 // GET: Fetch all users
@@ -46,3 +47,4 @@ const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
+
