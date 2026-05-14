@@ -4,8 +4,6 @@ import geoip from 'fast-geoip';
 import cors from 'cors';
 import dns from 'node:dns';
 
-// CRITICAL: Set DNS resolution to prefer IPv4 to avoid ENOTFOUND errors 
-// on certain local networks/ISPs when reaching external APIs.
 dns.setDefaultResultOrder('ipv4first');
 
 const app = express();
@@ -17,9 +15,7 @@ app.use(express.json());
 
 const LOG_URL = 'https://files.idigest.app/ip.txt';
 
-/**
- * API to fetch and process IP traffic data
- */
+
 app.get('/api/map-data', async (req, res) => {
     try {
         let ipData = "";
@@ -35,7 +31,6 @@ app.get('/api/map-data', async (req, res) => {
         } catch (fetchError) {
             console.error("External source unreachable. Details:", fetchError.message);
             
-            // Fallback: Real Chinese IPs for testing UI logic when the source is down
             ipData = `
                 110.184.123.45
                 123.125.114.144
@@ -46,7 +41,7 @@ app.get('/api/map-data', async (req, res) => {
             console.log("Using internal fallback IP dataset.");
         }
 
-        // Parse IPs using Regex
+        // Parse ips using Regex
         const ips = ipData.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g) || [];
         const regionData = {};
 
@@ -54,7 +49,7 @@ app.get('/api/map-data', async (req, res) => {
         for (const ip of ips) {
             const geo = await geoip.lookup(ip);
             
-            // Filter: China (CN)
+            // filter-> China (CN)
             if (geo && geo.country === 'CN') {
                 const region = geo.region || "Unknown Region";
                 
@@ -80,9 +75,7 @@ app.get('/api/map-data', async (req, res) => {
     }
 });
 
-/**
- * API to return server health and time
- */
+
 app.get('/api/time', (req, res) => {
     const now = new Date();
     res.json({ 
@@ -93,9 +86,5 @@ app.get('/api/time', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log('-------------------------------------------');
-    console.log(`🚀 Server running on: http://localhost:${PORT}`);
-    console.log(`📍 Map API: http://localhost:${PORT}/api/map-data`);
-    console.log(`🕒 Time API: http://localhost:${PORT}/api/time`);
-    console.log('-------------------------------------------');
+
 });
